@@ -12,6 +12,8 @@ function carregar(sheet) {
       const lista = document.getElementById("lista");
       lista.innerHTML = "";
 
+      //r = row, c = column, v = value. Sim, que imbecil esse google
+
       rows.forEach(r => {
         if (!r.c || !r.c[1]) return; // evita linhas vazias
 
@@ -20,6 +22,8 @@ function carregar(sheet) {
         let nota = "";
         let extra = "";
         let imagem = "";
+        let notaClasse = "";
+        let statusClass = "";
 
         if (sheet === "jogos") {
           nota = r.c[4]?.v || "-";
@@ -39,16 +43,55 @@ function carregar(sheet) {
           extra = "📺 " + (r.c[6]?.v || 0) + " eps";
         }
 
+        const notaNumero = Number.parseFloat(String(nota).replace(",", "."));
+        if (!Number.isNaN(notaNumero)) {
+          if (notaNumero >= 5) {
+            notaClasse = "nota-verde";
+          } else if (notaNumero >= 3 && notaNumero < 5) {
+            notaClasse = "nota-amarelo";
+          } else if (notaNumero <= 2) {
+            notaClasse = "nota-vermelho";
+          }
+        }
+
+        const statusMap = {
+          "completed": "Completo",
+          "library": "Na Biblioteca",
+          "playing": "Jogando",
+          "dropped": "Abandonado",
+        };
+        
+        const statusRaw = (r.c[2]?.v || "").toLowerCase().trim();
+        const statusText = statusMap[statusRaw] || "Unknown status";
+
+        if (statusRaw === "completed") {
+          statusClass = "status-completed";
+        } else if (statusRaw === "library") {
+          statusClass = "status-library";
+        } else if (statusRaw === "playing") {
+          statusClass = "status-playing";
+        } else if (statusRaw === "dropped") {
+          statusClass = "status-dropped";
+        } else {
+          statusClass = "";
+        }
+
         const div = document.createElement("div");
         div.className = "card";
 
         div.innerHTML = `
-          ${imagem ? `<img src="${imagem}" width="100%">` : ""}
+        ${imagem ? `<img src="${imagem}">` : ""}
+
+        <div class="info">
           <h3>${nome}</h3>
-          <p>⭐ ${nota}</p>
-          <p>${status}</p>
-          <p>${extra}</p>
-        `;
+
+          <div class="meta">
+            <span class="nota ${notaClasse}">${nota}</span>
+            <span class="status ${statusClass}">${statusText}</span>
+            <span>${extra}</span>
+          </div>
+        </div>
+      `;
 
         lista.appendChild(div);
       });

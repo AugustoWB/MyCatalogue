@@ -7,17 +7,25 @@
 </head>
 <body>
 
-<h1>Meu Catálogo</h1>
+  <div class="container">
 
-<div class="botoes">
-  <button onclick="carregar('jogos')">🎮 Jogos</button>
-  <button onclick="carregar('video')">📺 Vídeos</button>
-  <button onclick="carregar('livros')">📚 Livros</button>
-</div>
+    <header>
+      <h1>Meu Catálogo</h1>
 
-<div id="lista"></div>
+      <div class="botoes">
+        <button onclick="carregar('jogos')">Jogos</button>
+        <button onclick="carregar('video')">Vídeos</button>
+        <button onclick="carregar('livros')">Livros</button>
+      </div>
+    </header>
 
-<script src="script.js"></script>
+    <main>
+      <div id="lista"></div>
+    </main>
+
+  </div>
+
+  <script src="script.js"></script>
 
 </body>
 </html>
