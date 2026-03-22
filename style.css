@@ -81,7 +81,20 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  text-align: left;
   margin-left: 20px;
+  width: 100%;
+}
+
+.ended {
+  margin: 0;
+  font-size: 13px;
+  color: #b7c6cb;
+  opacity: 0.8;
+}
+
+.info h3 {
+  margin: 0;
 }
 
 .meta { /* a parte de status */
